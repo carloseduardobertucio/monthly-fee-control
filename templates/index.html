@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palácio de Oyá e Xangô</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='components/palaciooyaexango.png') }}"/>
+        </div>
+
+        <div class="header">
+            <h1>Palácio de Oyá e Xangô</h1>
+            <p>Cantinho de Cambinda | Centro de Umbanda</p>
+            <p>🌪️ Mãe Deth de Oyá</p>
+            <p>Status de pagamento de mensalidade dos filhos de santo</p>
+        </div>
+
+        <h2>Mês: {{ mes_atual }}</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome do Frequentante</th>
+                    <th>Status de Pagamento</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for frequentante in frequentantes %}
+                <tr>
+                    <td>{{ frequentante.nome }}</td>
+                    <td class="status {{ 'pago' if frequentante.status else 'nao_pago' }}">
+                        {{ 'Pago' if frequentante.status else 'Não Pago' }}
+                    </td>
+                    <td>
+                        {% if not frequentante.status %}
+                        <a href="{{ url_for('marcar_pago', nome=frequentante.nome) }}" class="btn">Marcar como Pago</a>
+                        {% else %}
+                        <a href="{{ url_for('marcar_nao_pago', nome=frequentante.nome) }}" class="btn">Marcar como Não Pago</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="footer">
+            <p>&copy; 2025 Palácio de Oyá e Xangô. Todos os direitos reservados.</p>
+        </div>
+    </div>
+</body>
+</html>
